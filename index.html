@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hry do dějin umění</title>
+<meta name="description" content="Interaktivní cvičení do hodin dějin umění k promítání na zeď.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  /* ================================================================
+     ROZCESTNÍK HER
+     Písmo se zvětšuje s oknem, aby šel výběr ukázat i na projektoru.
+     ================================================================ */
+  :root {
+    --paper: #f4efe6;
+    --card: #fff;
+    --ink: #111;
+    --muted: #4a463f;
+    --line: #d9d1c2;
+    --blue: #1d4b97;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: "Jost", "Segoe UI", sans-serif;
+    font-size: clamp(16px, min(1.5vw, 2.6vh), 30px);
+    line-height: 1.35;
+  }
+  a { color: var(--blue); }
+
+  /* ---------- Hlavička ---------- */
+  header {
+    display: flex; align-items: flex-end; gap: 1em; flex-wrap: wrap;
+    padding: 1.4em 1.6em 1em; border-bottom: 4px solid var(--ink);
+  }
+  header .titles { flex: 1; min-width: 14em; }
+  .kicker { font-weight: 800; text-transform: uppercase; letter-spacing: .08em; font-size: .7em; color: #c8281e; }
+  h1 { font-size: 2.6em; line-height: 1; margin: .1em 0 .15em; font-weight: 800; }
+  .sub { margin: 0; color: var(--muted); max-width: 34em; }
+  .infobtn {
+    font: inherit; font-weight: 800; cursor: pointer; font-size: .9em;
+    border: 3px solid var(--ink); background: var(--ink); color: #fff; padding: .35em .9em;
+  }
+  .infobtn:hover { background: var(--blue); border-color: var(--blue); }
+
+  /* ---------- Karty her ---------- */
+  main { padding: 1.4em 1.6em 2em; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(17em, 1fr)); gap: 1.2em; }
+  .game {
+    background: var(--card); border: 3px solid var(--ink); display: flex; flex-direction: column;
+    text-decoration: none; color: inherit; transition: transform .12s, box-shadow .12s;
+  }
+  .game:hover, .game:focus-visible { transform: translate(-3px, -3px); box-shadow: 6px 6px 0 var(--accent); outline: none; }
+  .cover { aspect-ratio: 2 / 1; overflow: hidden; border-bottom: 3px solid var(--ink); background: #ddd; position: relative; }
+  .cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cover .num {
+    position: absolute; left: 0; top: 0; background: var(--accent); color: #fff;
+    font-weight: 800; padding: .1em .5em; font-size: 1.1em;
+  }
+  .body { padding: .7em .9em .9em; display: flex; flex-direction: column; flex: 1; }
+  .game h2 { font-size: 1.45em; margin: 0 0 .15em; line-height: 1.1; }
+  .topic { margin: 0 0 .5em; }
+  .meta { display: flex; flex-wrap: wrap; gap: .3em; margin: 0 0 .6em; padding: 0; list-style: none; font-size: .75em; }
+  .meta li { border: 2px solid var(--ink); padding: 0 .45em; font-weight: 700; }
+  .format { color: var(--muted); font-size: .85em; margin: 0 0 .8em; flex: 1; }
+  .play {
+    align-self: flex-start; background: var(--accent); color: #fff; font-weight: 800;
+    padding: .3em .9em; border: 3px solid var(--ink);
+  }
+  .src { font-size: .65em; margin-top: .5em; color: var(--muted); }
+
+  footer { padding: 0 1.6em 1.5em; color: var(--muted); font-size: .65em; }
+
+  /* ---------- Panel „Pro učitele“ ---------- */
+  dialog {
+    border: 5px solid var(--ink); padding: 0; max-width: min(46em, 94vw); width: 100%;
+    max-height: 90vh; background: var(--paper); color: var(--ink);
+  }
+  dialog::backdrop { background: rgba(17,17,17,.6); }
+  .dlg-head {
+    position: sticky; top: 0; background: var(--ink); color: #fff;
+    display: flex; align-items: center; justify-content: space-between; padding: .5em .9em;
+  }
+  .dlg-head h2 { margin: 0; font-size: 1.2em; }
+  .dlg-head button { font: inherit; font-weight: 800; background: #fff; color: var(--ink); border: 0; padding: .1em .6em; cursor: pointer; }
+  .dlg-body { padding: .6em 1em 1em; font-size: .85em; }
+  details { border-bottom: 2px solid var(--line); padding: .45em 0; }
+  summary { font-weight: 800; font-size: 1.1em; cursor: pointer; list-style: none; }
+  summary::before { content: "▸ "; color: var(--blue); }
+  details[open] summary::before { content: "▾ "; }
+  details ol, details ul { margin: .4em 0 .2em; padding-left: 1.3em; }
+  details li { margin: .25em 0; }
+  kbd { font: inherit; font-weight: 800; border: 2px solid var(--ink); background: #fff; padding: 0 .3em; }
+  code { background: #fff; border: 1px solid var(--line); padding: 0 .25em; font-size: .9em; }
+  .warn { border-left: 6px solid #c8281e; padding: .2em .6em; background: #fff; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="titles">
+    <div class="kicker">Dějiny umění · cvičení k promítání</div>
+    <h1>Hry do hodin</h1>
+    <p class="sub">Vyberte hru, rozdělte třídu do skupin a promítněte ji na zeď. Nic se neinstaluje ani nestahuje.</p>
+  </div>
+  <button class="infobtn" id="infoOpen">ℹ Pro učitele</button>
+</header>
+
+<main>
+  <div class="grid" id="games"></div>
+</main>
+
+<footer>
+  Hry jsou zdarma k použití ve výuce. Zdrojový kód je veřejný na GitHubu (odkaz u každé hry).
+</footer>
+
+<!-- ========== PANEL PRO UČITELE ========== -->
+<dialog id="info">
+  <div class="dlg-head"><h2>Pro učitele</h2><button id="infoClose" aria-label="Zavřít">✕</button></div>
+  <div class="dlg-body">
+
+    <details open>
+      <summary>Jak začít</summary>
+      <ol>
+        <li>Otevřete tuto stránku v běžném prohlížeči (Chrome, Edge, Firefox, Safari) na počítači připojeném k projektoru.</li>
+        <li>Klikněte na hru. Otevře se ve stejném okně, zpět se dostanete tlačítkem Zpět v prohlížeči nebo odkazem ve hře.</li>
+        <li>Zapněte celou obrazovku: <kbd>F11</kbd> (Windows), v Komisi Werkbundu stačí <kbd>F</kbd>.</li>
+        <li>Rozdělte třídu do skupin hned na začátku. Skupiny se během hry nemění.</li>
+      </ol>
+    </details>
+
+    <details>
+      <summary>Během hodiny</summary>
+      <ul>
+        <li>Studenti si odpovědi <b>zapisují na papír</b>. Hra ukazuje kód otázky, aby bylo jasné, ke které otázce odpověď patří.</li>
+        <li><b>Body počítá hra</b> ve spodní liště. Přidáváte je klikáním na + / −, v Komisi Werkbundu i klávesami <kbd>1</kbd>–<kbd>6</kbd>.</li>
+        <li>Každá hra má vlastní nápovědu k ovládání: v Komisi Werkbundu tlačítko <b>?</b> (nebo klávesa <kbd>H</kbd>), v Romantické detektivce tip na úvodní obrazovce.</li>
+        <li>U odpovědí bývá podrobnější výklad se zdroji (tlačítko <b>Víc</b> nebo klik na tvrzení). Hodí se, když se třída zeptá „proč“.</li>
+        <li>Funguje i klikr na prezentace: posouvá snímky jako šipka vpravo.</li>
+      </ul>
+    </details>
+
+    <details>
+      <summary>Nová třída: vynulování bodů</summary>
+      <ul>
+        <li>Body a názvy skupin se ukládají v prohlížeči. Když stránku omylem zavřete, nic se neztratí.</li>
+        <li>Pro další třídu body vynulujte: v Komisi Werkbundu tlačítkem <b>Vynulovat body</b> na úvodním snímku, v Romantické detektivce novým nastavením týmů.</li>
+      </ul>
+    </details>
+
+    <details>
+      <summary>Sdílení s kolegy a studenty</summary>
+      <ul>
+        <li>Kolegům pošlete odkaz na tuto stránku: <a href="https://vojtechmatousek-oss.github.io/">vojtechmatousek-oss.github.io</a>. Všechny hry jsou na jednom místě a přibývají nové.</li>
+        <li>Nic se nestahuje, takže hru nezablokuje ani školní antivirus.</li>
+        <li class="warn"><b>Studentům odkaz před hodinou neposílejte.</b> Správné odpovědi jsou ve zdrojovém kódu stránky a šikovný student je najde.</li>
+        <li>Po hodině můžete odkaz studentům dát k opakování, třeba před maturitou.</li>
+      </ul>
+    </details>
+
+    <details>
+      <summary>Technické poznámky</summary>
+      <ul>
+        <li>Hry potřebují <b>internet</b> (načítají se z webu).</li>
+        <li>Optimalizováno pro projektory 1024×768 až 1920×1080. Písmo se samo přizpůsobí.</li>
+        <li>Když se něco zasekne, obnovte stránku (<kbd>F5</kbd>). Body zůstanou.</li>
+      </ul>
+    </details>
+
+    <details>
+      <summary>Zdrojový kód a úpravy</summary>
+      <ul>
+        <li>Každá hra je samostatný soubor <code>index.html</code> ve veřejném repozitáři na GitHubu. Odkaz <b>Zdrojový kód</b> je u každé hry.</li>
+        <li>Chcete-li hru upravit pro svou třídu: na GitHubu otevřete repozitář → <b>Fork</b> (vlastní kopie), nebo <b>Code → Download ZIP</b> a soubor upravte v libovolném textovém editoru.</li>
+        <li>Otázky a odpovědi jsou v souboru čitelně česky, úprava textu nevyžaduje programování.</li>
+        <li>Fotografie a zdroje informací jsou uvedeny na posledním snímku každé hry.</li>
+      </ul>
+    </details>
+
+    <details>
+      <summary>Pro správce: jak přidat novou hru</summary>
+      <ol>
+        <li>Na GitHubu vytvořte nový veřejný repozitář (např. <code>secese-kviz</code>) a nahrajte do něj hru jako <code>index.html</code> (+ složku s obrázky).</li>
+        <li>V repozitáři: <b>Settings → Pages → Branch: main, / (root) → Save</b>. Za minutu běží na <code>vojtechmatousek-oss.github.io/secese-kviz/</code>.</li>
+        <li>Volitelně do hry přidejte odkaz zpět na rozcestník: <code>&lt;a href="https://vojtechmatousek-oss.github.io/"&gt;← Výběr her&lt;/a&gt;</code>.</li>
+        <li>V tomto repozitáři (<code>vojtechmatousek-oss.github.io</code>) otevřete <code>index.html</code>, klikněte na tužku a v seznamu <code>GAMES</code> zkopírujte jeden blok hry a přepište údaje. Obrázek na kartu nahrajte do složky <code>covers</code>.</li>
+        <li><b>Commit changes</b>. Rozcestník se aktualizuje do dvou minut.</li>
+      </ol>
+    </details>
+
+    <details>
+      <summary>Obrázky na kartách</summary>
+      <ul>
+        <li>Vila Tugendhat: foto Karelj, <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>, Wikimedia Commons.</li>
+        <li>Eugène Delacroix: <i>Svoboda vede lid</i> (1830), volné dílo.</li>
+      </ul>
+    </details>
+  </div>
+</dialog>
+
+<script>
+/* ==================================================================
+   SEZNAM HER
+   Novou hru přidáte tak, že zkopírujete jeden blok { … } a přepíšete údaje.
+   Pořadí v seznamu = pořadí na stránce.
+     title    název hry
+     topic    téma (jedna věta)
+     tags     krátké štítky (období, cílová skupina, délka…)
+     format   jak se hraje
+     url      adresa hry
+     source   repozitář se zdrojovým kódem
+     cover    obrázek na kartu (složka covers/)
+     coverPosition, coverZoom   (volitelné) výřez a přiblížení obrázku
+     accent   barva karty
+   ================================================================== */
+const GAMES = [
+  {
+    title:  'Komise Werkbundu',
+    topic:  'Funkcionalismus: Bauhaus, Le Corbusier, Brno, Zlín a osada Baba',
+    tags:   ['meziválečná architektura', 'maturanti', '20 minut'],
+    format: '4 kola ve skupinách, odpovědi na papír. Správné řešení až při společném vyhodnocení, s podrobným výkladem.',
+    url:    'https://vojtechmatousek-oss.github.io/komise-werkbundu/',
+    source: 'https://github.com/vojtechmatousek-oss/komise-werkbundu',
+    cover:  'covers/komise-werkbundu.jpg',
+    coverPosition: '50% 45%',
+    coverZoom: 2,
+    accent: '#c8281e',
+  },
+  {
+    title:  'Romantická detektivka',
+    topic:  'Romantismus v malířství: Géricault, Delacroix, Turner, Friedrich',
+    tags:   ['romantismus', 'malířství', 'týmy'],
+    format: '3 kola: obsah, nebo forma? · proč je to romantismus? · pravda, nebo výmysl? Body počítá hra.',
+    url:    'https://vojtechmatousek-oss.github.io/romanticka-detektivka/',
+    source: 'https://github.com/vojtechmatousek-oss/romanticka-detektivka',
+    cover:  'covers/romanticka-detektivka.jpg',
+    coverPosition: '50% 20%',
+    accent: '#7a2e2e',
+  },
+];
+
+// ---------- Vykreslení karet ze seznamu GAMES ----------
+const grid = document.getElementById('games');
+// Pomocná funkce: převede text na bezpečné HTML (aby uvozovky apod. nerozbily stránku)
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+GAMES.forEach((g, i) => {
+  const card = document.createElement('div');
+  card.innerHTML = `
+    <a class="game" href="${esc(g.url)}" style="--accent:${esc(g.accent)}">
+      <div class="cover">
+        <img src="${esc(g.cover)}" alt="" style="object-position:${esc(g.coverPosition || '50% 50%')}; transform:scale(${+g.coverZoom || 1}); transform-origin:${esc(g.coverPosition || '50% 50%')}">
+        <span class="num">${i + 1}</span>
+      </div>
+      <div class="body">
+        <h2>${esc(g.title)}</h2>
+        <p class="topic">${esc(g.topic)}</p>
+        <ul class="meta">${g.tags.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
+        <p class="format">${esc(g.format)}</p>
+        <span class="play">Spustit hru ▸</span>
+      </div>
+    </a>
+    <div class="src"><a href="${esc(g.source)}">Zdrojový kód na GitHubu</a></div>`;
+  grid.appendChild(card);
+});
+
+// ---------- Panel „Pro učitele“ ----------
+const dlg = document.getElementById('info');
+document.getElementById('infoOpen').onclick = () => dlg.showModal();
+document.getElementById('infoClose').onclick = () => dlg.close();
+dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });   // klik mimo panel zavře
+</script>
+</body>
+</html>
