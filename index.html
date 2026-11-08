@@ -70,7 +70,6 @@
     align-self: flex-start; background: var(--accent); color: #fff; font-weight: 800;
     padding: .3em .9em; border: 3px solid var(--ink);
   }
-  .src { font-size: .65em; margin-top: .5em; color: var(--muted); }
 
   footer { padding: 0 1.6em 1.5em; color: var(--muted); font-size: .65em; }
 
@@ -114,7 +113,7 @@
 </main>
 
 <footer>
-  Hry jsou zdarma k použití ve výuce. Zdrojový kód je veřejný na GitHubu (odkaz u každé hry).
+  Hry jsou zdarma k použití ve výuce.
 </footer>
 
 <!-- ========== PANEL PRO UČITELE ========== -->
@@ -154,9 +153,9 @@
     <details>
       <summary>Sdílení s kolegy a studenty</summary>
       <ul>
-        <li>Kolegům pošlete odkaz na tuto stránku: <a href="https://vojtechmatousek-oss.github.io/hry-dejiny-umeni/">vojtechmatousek-oss.github.io/hry-dejiny-umeni</a>. Všechny hry jsou na jednom místě a přibývají nové.</li>
+        <li>Kolegům pošlete adresu této stránky (zkopírujte ji z adresního řádku prohlížeče). Všechny hry jsou na jednom místě a přibývají nové.</li>
         <li>Nic se nestahuje, takže hru nezablokuje ani školní antivirus.</li>
-        <li class="warn"><b>Studentům odkaz před hodinou neposílejte.</b> Správné odpovědi jsou ve zdrojovém kódu stránky a šikovný student je najde.</li>
+        <li class="warn"><b>Studentům odkaz posílejte až po hodině</b>, aby se na otázky nemohli připravit dopředu.</li>
         <li>Po hodině můžete odkaz studentům dát k opakování, třeba před maturitou.</li>
       </ul>
     </details>
@@ -168,27 +167,6 @@
         <li>Optimalizováno pro projektory 1024×768 až 1920×1080. Písmo se samo přizpůsobí.</li>
         <li>Když se něco zasekne, obnovte stránku (<kbd>F5</kbd>). Body zůstanou.</li>
       </ul>
-    </details>
-
-    <details>
-      <summary>Zdrojový kód a úpravy</summary>
-      <ul>
-        <li>Každá hra je samostatný soubor <code>index.html</code> ve veřejném repozitáři na GitHubu. Odkaz <b>Zdrojový kód</b> je u každé hry.</li>
-        <li>Chcete-li hru upravit pro svou třídu: na GitHubu otevřete repozitář → <b>Fork</b> (vlastní kopie), nebo <b>Code → Download ZIP</b> a soubor upravte v libovolném textovém editoru.</li>
-        <li>Otázky a odpovědi jsou v souboru čitelně česky, úprava textu nevyžaduje programování.</li>
-        <li>Fotografie a zdroje informací jsou uvedeny na posledním snímku každé hry.</li>
-      </ul>
-    </details>
-
-    <details>
-      <summary>Pro správce: jak přidat novou hru</summary>
-      <ol>
-        <li>Na GitHubu vytvořte nový veřejný repozitář (např. <code>secese-kviz</code>) a nahrajte do něj hru jako <code>index.html</code> (+ složku s obrázky).</li>
-        <li>V repozitáři: <b>Settings → Pages → Branch: main, / (root) → Save</b>. Za minutu běží na <code>vojtechmatousek-oss.github.io/secese-kviz/</code>.</li>
-        <li>Volitelně do hry přidejte odkaz zpět na rozcestník: <code>&lt;a href="https://vojtechmatousek-oss.github.io/hry-dejiny-umeni/"&gt;← Výběr her&lt;/a&gt;</code>.</li>
-        <li>V repozitáři rozcestníku (<code>hry-dejiny-umeni</code>) otevřete <code>index.html</code>, klikněte na tužku a v seznamu <code>GAMES</code> zkopírujte jeden blok hry a přepište údaje. Obrázek na kartu nahrajte do složky <code>covers</code>.</li>
-        <li><b>Commit changes</b>. Rozcestník se aktualizuje do dvou minut.</li>
-      </ol>
     </details>
 
     <details>
@@ -211,7 +189,6 @@
      tags     krátké štítky (období, cílová skupina, délka…)
      format   jak se hraje
      url      adresa hry
-     source   repozitář se zdrojovým kódem
      cover    obrázek na kartu (složka covers/)
      coverPosition, coverZoom   (volitelné) výřez a přiblížení obrázku
      accent   barva karty
@@ -223,7 +200,6 @@ const GAMES = [
     tags:   ['meziválečná architektura', 'maturanti', '20 minut'],
     format: '4 kola ve skupinách, odpovědi na papír. Správné řešení až při společném vyhodnocení, s podrobným výkladem.',
     url:    'https://vojtechmatousek-oss.github.io/komise-werkbundu/',
-    source: 'https://github.com/vojtechmatousek-oss/komise-werkbundu',
     cover:  'covers/komise-werkbundu.jpg',
     coverPosition: '50% 45%',
     coverZoom: 2,
@@ -235,7 +211,6 @@ const GAMES = [
     tags:   ['romantismus', 'malířství', 'týmy'],
     format: '3 kola: obsah, nebo forma? · proč je to romantismus? · pravda, nebo výmysl? Body počítá hra.',
     url:    'https://vojtechmatousek-oss.github.io/romanticka-detektivka/',
-    source: 'https://github.com/vojtechmatousek-oss/romanticka-detektivka',
     cover:  'covers/romanticka-detektivka.jpg',
     coverPosition: '50% 20%',
     accent: '#7a2e2e',
@@ -261,8 +236,7 @@ GAMES.forEach((g, i) => {
         <p class="format">${esc(g.format)}</p>
         <span class="play">Spustit hru ▸</span>
       </div>
-    </a>
-    <div class="src"><a href="${esc(g.source)}">Zdrojový kód na GitHubu</a></div>`;
+    </a>`;
   grid.appendChild(card);
 });
 
