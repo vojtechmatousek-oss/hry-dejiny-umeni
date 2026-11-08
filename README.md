@@ -1,6 +1,6 @@
 # Hry do hodin dějin umění
 
-Rozcestník interaktivních cvičení k promítání na zeď: **https://vojtechmatousek-oss.github.io/**
+Rozcestník interaktivních cvičení k promítání na zeď: **https://vojtechmatousek-oss.github.io/hry-dejiny-umeni/**
 
 | Hra | Téma |
 |---|---|
